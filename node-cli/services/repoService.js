@@ -30,8 +30,8 @@ export async function scanRepo(repoPath){
             const fullPath = path.join(dir, file);
             const stat = fs.stat(fullPath);
 
-            if((await stat).isDirectory()){
-                if(!IgnoreDir(file)){
+            if(stat.isDirectory()){
+                if(!ignoreDir(file)){ 
                     await traverse(fullPath);
                 }
             }
@@ -63,8 +63,8 @@ export async function cleanRepo(repoPath){
     }
 }
 
-// skip unnecessary dirs
-function IgnoreDir(dir){
+// ignore unnecessary dirs
+function ignoreDir(dir){
     const dirsIgnored = ["node_modules", ".git", "dist", "build", "__pycache__", ".next"];
     return dirsIgnored.includes(dir);
 }
